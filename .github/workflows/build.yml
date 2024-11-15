@@ -20,9 +20,6 @@ on:
   push:
     paths-ignore:
       - 'Documentation/**'
-    branches:
-      - 'releases/*'
-    tags:
 
 permissions:
   contents: read
@@ -142,7 +139,7 @@ jobs:
       DOCKER_BUILDKIT: 1
 
     strategy:
-      max-parallel: 12
+      fail-fast: false
       matrix:
         boards: ${{ fromJSON(needs.Linux-Arch.outputs.selected_builds) }}
 
@@ -211,7 +208,7 @@ jobs:
     needs: macOS-Arch
     if: ${{ needs.macOS-Arch.outputs.skip_all_builds != '1' }}
     strategy:
-      max-parallel: 2
+      fail-fast: false
       matrix:
         boards: ${{ fromJSON(needs.macOS-Arch.outputs.selected_builds) }}
     steps:
